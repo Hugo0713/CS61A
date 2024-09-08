@@ -28,3 +28,5 @@ https://www.bilibili.com/video/BV1sy411z7nA/?p=5&spm_id_from=pageDriver&vd_sourc
 https://www.bilibili.com/video/BV1s3411G7yM?p=13&vd_source=18b7c2df1803634b8448a869f204a1d6
 
 https://www.composingprograms.com/
+
+latest course links: https://cs61a.org/
