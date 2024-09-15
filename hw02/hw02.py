@@ -9,29 +9,7 @@ triple = lambda x: 3 * x
 increment = lambda x: x + 1
 
 
-HW_SOURCE_FILE = __file__
-
-
-def hailstone(n):
-    """Print the hailstone sequence starting at n and return its
-    length.
-
-    >>> a = hailstone(10)
-    10
-    5
-    16
-    8
-    4
-    2
-    1
-    >>> a
-    7
-    >>> b = hailstone(1)
-    1
-    >>> b
-    1
-    """
-    "*** YOUR CODE HERE ***"
+HW_SOURCE_FILE=__file__
 
 
 def product(n, term):
@@ -56,16 +34,16 @@ def product(n, term):
     "*** YOUR CODE HERE ***"
 
 
-def accumulate(merger, start, n, term):
-    """Return the result of merging the first n terms in a sequence and start.
-    The terms to be merged are term(1), term(2), ..., term(n). merger is a
-    two-argument commutative function.
+def accumulate(fuse, start, n, term):
+    """Return the result of fusing together the first n terms in a sequence 
+    and start.  The terms to be fused are term(1), term(2), ..., term(n). 
+    The function fuse is a two-argument commutative & associative function.
 
     >>> accumulate(add, 0, 5, identity)  # 0 + 1 + 2 + 3 + 4 + 5
     15
     >>> accumulate(add, 11, 5, identity) # 11 + 1 + 2 + 3 + 4 + 5
     26
-    >>> accumulate(add, 11, 0, identity) # 11
+    >>> accumulate(add, 11, 0, identity) # 11 (fuse is never used)
     11
     >>> accumulate(add, 11, 3, square)   # 11 + 1^2 + 2^2 + 3^2
     25
@@ -74,11 +52,6 @@ def accumulate(merger, start, n, term):
     >>> # 2 + (1^2 + 1) + (2^2 + 1) + (3^2 + 1)
     >>> accumulate(lambda x, y: x + y + 1, 2, 3, square)
     19
-    >>> # ((2 * 1^2 * 2) * 2^2 * 2) * 3^2 * 2
-    >>> accumulate(lambda x, y: 2 * x * y, 2, 3, square)
-    576
-    >>> accumulate(lambda x, y: (x + y) % 17, 19, 20, square)
-    16
     """
     "*** YOUR CODE HERE ***"
 
@@ -90,14 +63,12 @@ def summation_using_accumulate(n, term):
     55
     >>> summation_using_accumulate(5, triple)
     45
-    >>> # You aren't expected to understand the code of this test.
-    >>> # Check that the bodies of the functions are just return statements.
-    >>> # If this errors, make sure you have removed the "***YOUR CODE HERE***".
+    >>> # This test checks that the body of the function is just a return statement.
     >>> import inspect, ast
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(summation_using_accumulate)).body[0].body]
     ['Expr', 'Return']
     """
-    "*** YOUR CODE HERE ***"
+    return ____
 
 
 def product_using_accumulate(n, term):
@@ -107,11 +78,26 @@ def product_using_accumulate(n, term):
     576
     >>> product_using_accumulate(6, triple)
     524880
-    >>> # You aren't expected to understand the code of this test.
-    >>> # Check that the bodies of the functions are just return statements.
-    >>> # If this errors, make sure you have removed the "***YOUR CODE HERE***".
+    >>> # This test checks that the body of the function is just a return statement.
     >>> import inspect, ast
     >>> [type(x).__name__ for x in ast.parse(inspect.getsource(product_using_accumulate)).body[0].body]
     ['Expr', 'Return']
     """
+    return ____
+
+
+def make_repeater(f, n):
+    """Returns the function that computes the nth application of f.
+
+    >>> add_three = make_repeater(increment, 3)
+    >>> add_three(5)
+    8
+    >>> make_repeater(triple, 5)(1) # 3 * 3 * 3 * 3 * 3 * 1
+    243
+    >>> make_repeater(square, 2)(5) # square(square(5))
+    625
+    >>> make_repeater(square, 3)(5) # square(square(square(5)))
+    390625
+    """
     "*** YOUR CODE HERE ***"
+
