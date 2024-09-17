@@ -28,6 +28,12 @@ def num_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n == 0:
+        return 0
+    elif n % 10 == 8:
+        return num_eights(n // 10) + 1
+    else:
+        return num_eights(n // 10)
 
 
 def digit_distance(n):
@@ -50,6 +56,9 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n // 10 == 0:
+        return 0
+    return digit_distance(n // 10) + abs(n % 10 - (n // 10) % 10)
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -72,6 +81,13 @@ def interleaved_sum(n, odd_func, even_func):
     True
     """
     "*** YOUR CODE HERE ***"
+    def cal(k):
+        if k == n:
+            return odd_func(k)
+        if k > n:
+            return 0
+        return odd_func(k) + even_func(k + 1) + cal(k + 2)
+    return cal(1)
 
 
 def next_larger_coin(coin):
@@ -107,9 +123,12 @@ def next_smaller_coin(coin):
         return 5
     elif coin == 5:
         return 1
+    return 0
 
 def count_coins(total):
     """Return the number of ways to make change using coins of value of 1, 5, 10, 25.
+    >>> count_coins(6)
+    2
     >>> count_coins(15)
     6
     >>> count_coins(10)
@@ -126,6 +145,15 @@ def count_coins(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def count_partitions(n, m):
+        if n == 0:
+            return 1
+        elif n < 0 or m == 0:
+            return 0
+        else:
+            return count_partitions(n - m, m) + count_partitions(n, next_smaller_coin(m))
+    return count_partitions(total, 25)
+    
 
 
 def print_move(origin, destination):
@@ -161,6 +189,13 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        print_move(start, end)
+    else:
+        other = 6 - start - end  # 计算中间杆的位置
+        move_stack(n - 1, start, other)  # 将 n-1 个圆盘从 start 移动到 other
+        print_move(start, end)  # 将第 n 个圆盘从 start 移动到 end
+        move_stack(n - 1, other, end)  # 将 n-1 个圆盘从 other 移动到 end
 
 
 from operator import sub, mul
