@@ -31,6 +31,13 @@ def pick(paragraphs, select, k):
     """
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    i = 0
+    for s in paragraphs:
+        if select(s):
+            if i == k:
+                return s
+            i += 1
+    return ''
     # END PROBLEM 1
 
 
@@ -50,6 +57,16 @@ def about(subject):
     assert all([lower(x) == x for x in subject]), 'subjects should be lowercase.'
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    def select(s):
+        s = remove_punctuation(s)
+        ss = s.lower().split()
+        for sss in ss:
+            
+            if sss in subject:
+                return True
+        return False
+    return select
+
     # END PROBLEM 2
 
 
@@ -80,6 +97,18 @@ def accuracy(typed, source):
     source_words = split(source)
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    n = len(typed_words)
+    k = 0
+    if n == 0:
+        if len(source_words) == 0:
+            return 100.0
+        return 0.0
+    for typed_word, source_word in zip(typed_words, source_words):
+        if typed_word == None:
+            break
+        if typed_word == source_word:
+            k += 1
+    return k / n * 100
     # END PROBLEM 3
 
 
@@ -98,6 +127,9 @@ def wpm(typed, elapsed):
     assert elapsed > 0, 'Elapsed time must be positive'
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    ss = list(typed)
+    lens = len(ss)
+    return lens / 5 * 60 / elapsed
     # END PROBLEM 4
 
 
@@ -127,6 +159,14 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    if typed_word in word_list:
+        return typed_word
+    
+    closest_word = min(word_list, key=lambda word: diff_function(typed_word, word, limit))
+    if diff_function(typed_word, closest_word, limit) <= limit:
+        return closest_word
+    else:
+        return typed_word
     # END PROBLEM 5
 
 
@@ -153,7 +193,19 @@ def feline_fixes(typed, source, limit):
     5
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    # assert False, 'Remove this line'
+    if typed == source:
+        return 0
+    if limit < 0:
+        return limit + 1
+    if not typed or not source:
+        return max(len(typed), len(source))
+    
+    if typed[0] == source[0]:
+        return feline_fixes(typed[1:], source[1:], limit)
+    else:
+        substitute = feline_fixes(typed[1:], source[1:], limit - 1)
+        return 1 + substitute
     # END PROBLEM 6
 
 
@@ -177,21 +229,21 @@ def minimum_mewtations(typed, source, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, 'Remove this line'
-    if ___________: # Base cases should go here, you may add more base cases as needed.
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-    # Recursive cases should go below here
-    if ___________: # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    
+    if typed == source:
+        return 0
+    if limit < 0:
+        return limit + 1
+    if not typed or not source:
+        return max(len(typed), len(source))
+
+    if typed[0] == source[0]:
+        return minimum_mewtations(typed[1:], source[1:], limit)
     else:
-        add = ... # Fill in these lines
-        remove = ...
-        substitute = ...
-        # BEGIN
+        substitute = minimum_mewtations(typed[1:], source[1:], limit - 1)
+        delete = minimum_mewtations(typed[1:], source, limit - 1)
+        insert = minimum_mewtations(typed, source[1:], limit - 1)
+        return 1 + min(substitute, delete, insert)
         "*** YOUR CODE HERE ***"
         # END
 
@@ -199,8 +251,21 @@ def minimum_mewtations(typed, source, limit):
 def final_diff(typed, source, limit):
     """A diff function that takes in a string TYPED, a string SOURCE, and a number LIMIT.
     If you implement this function, it will be used."""
-    assert False, 'Remove this line to use your final_diff function.'
+    # assert False, 'Remove this line to use your final_diff function.'
+    if typed == source:
+        return 0
+    if limit < 0:
+        return limit + 1
+    if not typed or not source:
+        return max(len(typed), len(source))
 
+    if typed[0] == source[0]:
+        return final_diff(typed[1:], source[1:], limit)
+    else:
+        substitute = final_diff(typed[1:], source[1:], limit - 1)
+        delete = final_diff(typed[1:], source, limit - 1)
+        insert = final_diff(typed, source[1:], limit - 1)
+        return 1 + min(substitute, delete, insert)
 FINAL_DIFF_LIMIT = 6 # REPLACE THIS WITH YOUR LIMIT
 
 
